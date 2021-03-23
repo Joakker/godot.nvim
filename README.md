@@ -15,7 +15,7 @@ use {
 
 Using [vim-plug](https://github.com/junegunn/vim-plug)
 
-```vimscript
+```vim
 Plug 'nvim-lua/plenary.nvim'
 Plug 'Joakker/godot.nvim'
 ```
