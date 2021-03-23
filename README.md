@@ -31,3 +31,4 @@ Plug 'Joakker/godot.nvim'
     - [ ] Text scenes
 - [x] Exporting templates
 - [ ] Evaluating scripts
+- [ ] Use treesitter for GDScript highlighting
