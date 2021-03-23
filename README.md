@@ -29,5 +29,5 @@ Plug 'Joakker/godot.nvim'
     - [ ] GDScript
     - [ ] Resource files
     - [ ] Text scenes
-- [~] Exporting templates
+- [x] Exporting templates
 - [ ] Evaluating scripts
