@@ -1,3 +1,4 @@
+---@diagnostic disable: duplicate-doc-class
 local M = {}
 
 ---@alias Callback  fun(name: string, path: string)
@@ -21,9 +22,10 @@ M.presets = {}
 --
 ---@class GodotOptions
 ---@field versionmsg    boolean     Display a message at startup (default: true)
----@field executable    string      Name of the godot executable (default: godot)
+---@field executable    string      Path of the godot executable (default: godot)
 ---@field presets       Preset[]    The default list of export presets
 function M.setup(options)
+    options = options or {}
     executable = options.executable or 'godot'
     local versionmsg =
         (options.versionmsg == nil) and true or options.versionmsg
@@ -48,7 +50,7 @@ end
 
 -- Export the given template
 --
----@param name string
+---@param name string   The name of the preset to use
 function M.export(name)
     if name and M.presets[name] then
         local exp = M.presets[name]

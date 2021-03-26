@@ -1,0 +1,96 @@
+*godot.txt*
+
+
+                          _       _                _                ~
+                         | |     | |              (_)               ~
+           __ _  ___   __| | ___ | |_   _ ____   ___ _ __ ___       ~
+          / _` |/ _ \ / _` |/ _ \| __| | '_ \ \ / / | '_ ` _ \      ~
+         | (_| | (_) | (_| | (_) | |_ _| | | \ V /| | | | | | |     ~
+          \__, |\___/ \__,_|\___/ \__(_)_| |_|\_/ |_|_| |_| |_|     ~
+           __/ |                                                    ~
+          |___/                                                     ~
+
+            A plugin that brings vim and godot closer together
+
+                                      Type |gO| to see the table of contents.
+==============================================================================
+CONTENTS                                                        *godot-contents*
+
+        Introduction .................................... |godot-intro|
+        Requirements .................................... |godot-requirements|
+        Lua API ......................................... |godot-lua-api|
+
+==============================================================================
+INTRODUCTION                                                 *godot* *godot-intro*
+
+`godot.nvim` tries to integrate neovim into your Godot workflow, letting you do
+things like:
+
+    - Exporting templates
+    - Evaluating scripts
+    - Launching scenes
+    - ...etc
+
+All from within your editor!
+
+==============================================================================
+REQUIREMENTS                                                *godot-requirements*
+
+`godot.nvim`, as the name might suggest, works for neovim only, as it makes
+use of lua functionality only present in that version. If you only wish only
+for syntax highlighting plus some (very) useful commands, I recommend using
+`https://github.com/habamax/vim-godot`. The plugin is pretty good, and it
+works both with regular vim and neovim.
+
+You also need a godot executable, as the plugin invokes it for functionality
+like building templates and evaluating scripts.
+
+==============================================================================
+LUA API                                                          *godot-lua-api*
+
+All these functions can be accessed via the godot module:
+>
+    local godot = require 'godot'
+<
+------------------------------------------------------------------------------
+
+godot.setup({options})                                           *godot.setup()*
+    Initiate the godot module. Can be called multiple times to reset the
+    config.
+
+    Parameters: ~
+        {options}   (table)     Initialization options. Keys:
+                                    - `executable`: The path to the godot
+                                      executable. (default: `godot`)
+                                    - `versionmsg`: Whether to display a
+                                      message on initialization with the
+                                      version of godot being used (default:
+                                      `true`)
+                                    - `presets`: A list of default presets for
+                                      exporting templates. See
+                                      |godot-presets|. (default: [])
+
+godot.export(name)                                              *godot.export()*
+
+------------------------------------------------------------------------------
+
+*godot-presets*
+
+When defining a preset, a very specific form of table is expected. That table
+should contain at least:
+
+        `name`          (string)    The name of the preset. It should coincide
+                                    with the name in `export_presets.cfg`
+
+        `path`          (string)    Path to the exported file. It should
+                                    either be absolute or relative to the
+                                    project directory, and include
+                                    the filename for the binary (e.g.
+                                    'builds/game.exe'). The target directory
+                                    should exist.
+
+        `callback`      (function)  Function to call when the export succeeds.
+                                    TODO
+
+==============================================================================
+ vim:ft=help:tw=78:sw=4:ts=8
