@@ -25,10 +25,18 @@ Plug 'Joakker/godot.nvim'
 
 ## TODO list
 
+Completion depends on whether there is basic functionality implemented, not
+necessarily complete integration. I have to know what to optimize first.
+
 - [ ] Syntax highlighting
     - [ ] GDScript
     - [ ] Resource files
     - [ ] Text scenes
-- [x] Exporting templates
-- [ ] Evaluating scripts
+- [X] Exporting templates
+- [X] Evaluating scripts
 - [ ] Use treesitter for GDScript highlighting
+
+## Contributing
+
+Pull requests are more than welcome. Feel free to open issues if you feel
+something is missing or if something doesn't work for you :smiley: .
