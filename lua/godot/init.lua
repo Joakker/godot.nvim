@@ -61,13 +61,24 @@ function M.export(name)
                 -- TODO(Joakker): Translate the on_exit callback to our
                 -- own custom handler
             end
-        }
+        }:sync()
     end
 end
 
 -- Export for all configured presets
 function M.export_all()
     for name in pairs(M.presets) do M.export(name) end
+end
+
+function M.eval_script(path)
+    Job:new{
+        command = executable,
+        args = {'--script', path},
+        on_exit = function(j, return_val)
+            print(return_val)
+            print(vim.inspect(j:result()))
+        end
+    }:sync()
 end
 
 return M
