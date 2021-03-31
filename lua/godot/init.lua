@@ -11,7 +11,7 @@ local M = {}
 local Job = require 'plenary.job'
 
 ---@type string
-local executable
+local executable = 'godot'
 ---@type string
 local version
 
