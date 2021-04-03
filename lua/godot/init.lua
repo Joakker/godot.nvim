@@ -1,6 +1,8 @@
 ---@diagnostic disable: duplicate-doc-class
 local M = {}
 
+local U = require 'godot.utils'
+
 ---@alias Callback  fun(name: string, path: string)
 
 ---@class Preset    @The build presets for exporting the game
@@ -15,8 +17,15 @@ local executable = 'godot'
 ---@type string
 local version
 
+local function defaultCallback(name, path)
+    print("Finished exporting " .. name .. " to " .. path)
+end
+
 ---@type table<string,Preset>
 M.presets = {}
+for _, name in ipairs(U.get_config_names()) do
+    M.presets[name] = {name = name, path = '.', callback = defaultCallback}
+end
 
 -- Sets up the environment for godot development
 --
