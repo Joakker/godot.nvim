@@ -24,7 +24,11 @@ end
 ---@type table<string,Preset>
 M.presets = {}
 for _, name in ipairs(U.get_config_names()) do
-    M.presets[name] = {name = name, path = '.', callback = defaultCallback}
+    M.presets[name] = {
+        name = name,
+        path = './game_' .. name:lower():gsub('/', '_'),
+        callback = defaultCallback
+    }
 end
 
 -- Sets up the environment for godot development
@@ -70,7 +74,7 @@ function M.export(name)
                 -- TODO(Joakker): Translate the on_exit callback to our
                 -- own custom handler
             end
-        }:sync()
+        }:sync(1800000)
     end
 end
 
