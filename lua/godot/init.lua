@@ -5,10 +5,11 @@ local U = require 'godot.utils'
 
 ---@alias Callback  fun(name: string, path: string)
 
----@class Preset    @The build presets for exporting the game
----@field name      string
----@field path      string
----@field callback  Callback
+---@class Preset        @The build presets for exporting the game
+---@field name          string
+---@field path          string
+---@field on_success    Callback
+---@field on_failure    Callback
 
 local Job = require 'plenary.job'
 
@@ -17,8 +18,12 @@ local executable = 'godot'
 ---@type string
 local version
 
-local function defaultCallback(name, path)
+local function default_on_success(name, path)
     print("Finished exporting " .. name .. " to " .. path)
+end
+
+local function default_on_failure(name, path)
+    print("Failed exporting " .. name .. " to " .. path)
 end
 
 ---@type table<string,Preset>
@@ -27,7 +32,8 @@ for _, name in ipairs(U.get_config_names()) do
     M.presets[name] = {
         name = name,
         path = './game_' .. name:lower():gsub('/', '_'),
-        callback = defaultCallback
+        on_success = default_on_success,
+        on_failure = default_on_failure
     }
 end
 
@@ -65,14 +71,19 @@ end
 --
 ---@param name string   The name of the preset to use
 function M.export(name)
+    local startmsg = ('Exporting %s to %s')
     if name and M.presets[name] then
         local exp = M.presets[name]
+        print(startmsg:format(exp.name, exp.path))
         Job:new{
             command = executable,
-            args = {'--export', exp.name, exp.path},
-            on_exit = function()
-                -- TODO(Joakker): Translate the on_exit callback to our
-                -- own custom handler
+            args = {'--export', exp.name, exp.path, '--no-window'},
+            on_exit = function(_, exitcode)
+                if exitcode == 0 then
+                    exp.on_success(exp.name, exp.path)
+                else
+                    exp.on_failure(exp.name, exp.path)
+                end
             end
         }:sync(1800000)
     end
