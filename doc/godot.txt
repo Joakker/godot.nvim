@@ -67,10 +67,22 @@ godot.setup({options})                                           *godot.setup()*
                                       version of godot being used (default:
                                       `true`)
                                     - `presets`: A list of default presets for
-                                      exporting templates. See
-                                      |godot-presets|. (default: [])
+                                      exporting templates. See |godot-presets|.
 
 godot.export(name)                                              *godot.export()*
+    Export the template named `name`. The appropriate callbacks will be
+    executed depending on whether the process was successful or not.
+
+    Parameters: ~
+        name        (string)    Name of the preset to export to.
+
+godot.export_all()                                          *godot.export_all()*
+    Export all configured templates in the order they were defined.
+
+godot.eval_script(path)
+    TODO
+    Parameters:~
+        path        (string)    Name of the script to evaluate
 
 ------------------------------------------------------------------------------
 
@@ -87,10 +99,33 @@ should contain at least:
                                     project directory, and include
                                     the filename for the binary (e.g.
                                     'builds/game.exe'). The target directory
-                                    should exist.
+                                    should exist. Default is
+                                    `./name_in_snake_case`
 
-        `callback`      (function)  Function to call when the export succeeds.
-                                    TODO
+        `on_success`    (function)  Function to call when the export succeeds.
+                                    See |godot-callbacks|
+
+        `on_failure`    (function)  Function to call when the export fails.
+                                    See |godot-callbacks|
+
+By default, if a file named `export_presets.cfg` is found in the current
+directory or any of it's ancestors, it will be read in search of preset names,
+and a default preset will be defined with the names found (currently, this is
+done naively by looking for a line of the form `name = <something>`, and in the
+future I'd like to have something a little more robust).
+
+------------------------------------------------------------------------------
+*godot-callbacks*
+
+The `on_success` and `on_failure` callbacks in a |godot-preset| have the following
+signature: >
+
+    function(name: string, path: string)
+
+Where `name` is the preset's name, and path is the path to the exported binary,
+so that the callbacks can be reused between presets.
+
+The default callbacks simply print a success/failure message.
 
 ==============================================================================
  vim:ft=help:tw=78:sw=4:ts=8
